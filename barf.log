@@ -1,0 +1,93 @@
+❯ ./gradlew run
+18:43:24.726 [main] INFO  i.m.t.e.TestResourcesResolverLoader - Loaded 3 test resources resolvers: io.micronaut.testresources.kafka.KafkaTestResourceProvider, io.micronaut.testresources.hivemq.HiveMQTestResourceProvider, io.micronaut.testresources.testcontainers.GenericTestContainerProvider
+18:43:24.824 [main] INFO  i.m.testresources.server.Application - A Micronaut Test Resources server is listening on port 62620, started in 146ms
+
+> Task :internalStartTestResourcesService
+Test resources server started in standalone mode. You can stop it by running the stopTestResourcesService task.
+18:43:25.759 [default-nioEventLoopGroup-1-2] INFO  i.m.t.e.TestResourcesResolverLoader - Loaded 3 test resources resolvers: io.micronaut.testresources.kafka.KafkaTestResourceProvider, io.micronaut.testresources.hivemq.HiveMQTestResourceProvider, io.micronaut.testresources.testcontainers.GenericTestContainerProvider
+18:43:25.875 [default-nioEventLoopGroup-1-7] INFO  o.t.utility.ImageNameSubstitutor - Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+18:43:25.877 [default-nioEventLoopGroup-1-7] INFO  i.m.t.testcontainers.TestContainers - Starting test container hivemq
+18:43:25.886 [default-nioEventLoopGroup-1-7] INFO  o.t.d.DockerClientProviderStrategy - Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+18:43:26.013 [default-nioEventLoopGroup-1-7] INFO  o.t.d.DockerClientProviderStrategy - Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+18:43:26.014 [default-nioEventLoopGroup-1-7] INFO  o.testcontainers.DockerClientFactory - Docker host IP address is localhost
+18:43:26.027 [default-nioEventLoopGroup-1-7] INFO  o.testcontainers.DockerClientFactory - Connected to docker:
+  Server Version: 20.10.21
+  API Version: 1.41
+  Operating System: Docker Desktop
+  Total Memory: 7851 MB
+18:43:26.042 [default-nioEventLoopGroup-1-7] INFO  🐳 [testcontainers/ryuk:0.3.4] - Creating container for image: testcontainers/ryuk:0.3.4
+18:43:26.322 [default-nioEventLoopGroup-1-7] INFO  o.t.utility.RegistryAuthLocator - Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+18:43:26.361 [default-nioEventLoopGroup-1-7] INFO  🐳 [testcontainers/ryuk:0.3.4] - Container testcontainers/ryuk:0.3.4 is starting: 38820ab4b20b3db336d64c0b25e25ef28ad568343f809ec055c4ea7b01dac731
+18:43:26.614 [default-nioEventLoopGroup-1-7] INFO  🐳 [testcontainers/ryuk:0.3.4] - Container testcontainers/ryuk:0.3.4 started in PT0.584025S
+18:43:26.618 [default-nioEventLoopGroup-1-7] INFO  o.t.utility.RyukResourceReaper - Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+18:43:26.618 [default-nioEventLoopGroup-1-7] INFO  o.testcontainers.DockerClientFactory - Checking the system...
+18:43:26.618 [default-nioEventLoopGroup-1-7] INFO  o.testcontainers.DockerClientFactory - ✔︎ Docker server version should be at least 1.6.0
+18:43:26.619 [default-nioEventLoopGroup-1-7] INFO  🐳 [hivemq/hivemq-ce:2021.3] - Creating container for image: hivemq/hivemq-ce:2021.3
+18:43:26.638 [default-nioEventLoopGroup-1-7] INFO  🐳 [hivemq/hivemq-ce:2021.3] - Container hivemq/hivemq-ce:2021.3 is starting: 30cb7b04385b28679c0067b6620bcd72a083d09685d067984a31f5cd9ba0897a
+
+> Task :run
+18:43:25.269 [main] INFO  i.m.context.env.DefaultEnvironment - Established active environments: [cli]
+
+18:43:46.709 [default-nioEventLoopGroup-1-7] INFO  🐳 [hivemq/hivemq-ce:2021.3] - Container hivemq/hivemq-ce:2021.3 started in PT20.090684S
+
+> Task :run
+Exception in thread "main" io.micronaut.context.exceptions.DependencyInjectionException: Failed to inject value for parameter [executorConfiguration] of method [executorService] of class: java.util.concurrent.ExecutorService
+
+Message: Multiple possible bean candidates found: [io.micronaut.scheduling.executor.ExecutorConfiguration, io.micronaut.scheduling.executor.ExecutorConfiguration]
+Path Taken: new KafkaConsumerProcessor(ExecutorService executorService,ApplicationConfiguration applicationConfiguration,BeanContext beanContext,AbstractKafkaConsumerConfiguration defaultConsumerConfiguration,ConsumerRecordBinderRegistry binderRegistry,BatchConsumerRecordsBinderRegistry batchBinderRegistry,SerdeRegistry serdeRegistry,ProducerRegistry producerRegistry,KafkaListenerExceptionHandler exceptionHandler,ExecutorService schedulerService,TransactionalProducerRegistry transactionalProducerRegistry) --> new KafkaConsumerProcessor([ExecutorService executorService],ApplicationConfiguration applicationConfiguration,BeanContext beanContext,AbstractKafkaConsumerConfiguration defaultConsumerConfiguration,ConsumerRecordBinderRegistry binderRegistry,BatchConsumerRecordsBinderRegistry batchBinderRegistry,SerdeRegistry serdeRegistry,ProducerRegistry producerRegistry,KafkaListenerExceptionHandler exceptionHandler,ExecutorService schedulerService,TransactionalProducerRegistry transactionalProducerRegistry) --> ExecutorService.executorService([ExecutorConfiguration executorConfiguration])
+# Issue with micronaut using both kafka and mqtt
+        at io.micronaut.context.AbstractInitializableBeanDefinition.resolveBean(AbstractInitializableBeanDefinition.java:2087)
+        at io.micronaut.context.AbstractInitializableBeanDefinition.getBeanForConstructorArgument(AbstractInitializableBeanDefinition.java:1297)
+        at io.micronaut.scheduling.executor.$ExecutorFactory$ExecutorService1$Definition.build(Unknown Source)
+        at io.micronaut.context.BeanDefinitionDelegate.build(BeanDefinitionDelegate.java:161)
+        at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2354)
+        at io.micronaut.context.DefaultBeanContext.doCreateBean(DefaultBeanContext.java:2305)
+        at io.micronaut.context.DefaultBeanContext.doCreateBean(DefaultBeanContext.java:2251)
+        at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3016)
+        at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+        at io.micronaut.context.DefaultBeanContext.findOrCreateSingletonBeanRegistration(DefaultBeanContext.java:2918)
+        at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:2879)
+        at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:2800)
+        at io.micronaut.context.DefaultBeanContext.getBean(DefaultBeanContext.java:1617)
+        at io.micronaut.context.AbstractBeanResolutionContext.getBean(AbstractBeanResolutionContext.java:66)
+        at io.micronaut.context.AbstractInitializableBeanDefinition.resolveBean(AbstractInitializableBeanDefinition.java:2065)
+        at io.micronaut.context.AbstractInitializableBeanDefinition.getBeanForConstructorArgument(AbstractInitializableBeanDefinition.java:1297)
+        at io.micronaut.configuration.kafka.processor.$KafkaConsumerProcessor$Definition.build(Unknown Source)
+        at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2354)
+        at io.micronaut.context.DefaultBeanContext.doCreateBean(DefaultBeanContext.java:2305)
+        at io.micronaut.context.DefaultBeanContext.doCreateBean(DefaultBeanContext.java:2251)
+        at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3016)
+        at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+        at io.micronaut.context.DefaultBeanContext.findOrCreateSingletonBeanRegistration(DefaultBeanContext.java:2918)
+        at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:2879)
+        at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:2853)
+        at io.micronaut.context.DefaultBeanContext.addCandidateToList(DefaultBeanContext.java:3511)
+        at io.micronaut.context.DefaultBeanContext.resolveBeanRegistrations(DefaultBeanContext.java:3457)
+        at io.micronaut.context.DefaultBeanContext.getBeanRegistrations(DefaultBeanContext.java:3427)
+        at io.micronaut.context.DefaultBeanContext.streamOfType(DefaultBeanContext.java:941)
+        at io.micronaut.context.DefaultBeanContext.streamOfType(DefaultBeanContext.java:926)
+        at io.micronaut.context.DefaultBeanContext.streamOfType(DefaultBeanContext.java:908)
+        at io.micronaut.context.DefaultBeanContext.lambda$initializeContext$40(DefaultBeanContext.java:1968)
+        at java.base/java.util.HashMap.forEach(HashMap.java:1420)
+        at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:1967)
+        at io.micronaut.context.DefaultApplicationContext.initializeContext(DefaultApplicationContext.java:249)
+        at io.micronaut.context.DefaultBeanContext.readAllBeanDefinitionClasses(DefaultBeanContext.java:3326)
+        at io.micronaut.context.DefaultBeanContext.finalizeConfiguration(DefaultBeanContext.java:3684)
+        at io.micronaut.context.DefaultBeanContext.start(DefaultBeanContext.java:341)
+        at io.micronaut.context.DefaultApplicationContext.start(DefaultApplicationContext.java:194)
+        at io.micronaut.context.ApplicationContextBuilder.start(ApplicationContextBuilder.java:254)
+        at io.micronaut.configuration.picocli.PicocliRunner.run(PicocliRunner.java:113)
+        at name.dirkhas.MqttkafkaCommand$Companion.main(MqttkafkaCommand.kt:25)
+        at name.dirkhas.MqttkafkaCommand.main(MqttkafkaCommand.kt)
+Caused by: io.micronaut.context.exceptions.NonUniqueBeanException: Multiple possible bean candidates found: [io.micronaut.scheduling.executor.ExecutorConfiguration, io.micronaut.scheduling.executor.ExecutorConfiguration]
+        at io.micronaut.context.DefaultBeanContext.findConcreteCandidate(DefaultBeanContext.java:2472)
+        at io.micronaut.context.DefaultApplicationContext.findConcreteCandidate(DefaultApplicationContext.java:492)
+        at io.micronaut.context.DefaultBeanContext.lastChanceResolve(DefaultBeanContext.java:3249)
+        at io.micronaut.context.DefaultBeanContext.findConcreteCandidateNoCache(DefaultBeanContext.java:3127)
+        at io.micronaut.context.DefaultBeanContext.findConcreteCandidate(DefaultBeanContext.java:3058)
+        at io.micronaut.context.DefaultBeanContext.findBeanDefinition(DefaultBeanContext.java:788)
+        at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:2790)
+        at io.micronaut.context.DefaultBeanContext.getBean(DefaultBeanContext.java:1617)
+        at io.micronaut.context.AbstractBeanResolutionContext.getBean(AbstractBeanResolutionContext.java:66)
+        at io.micronaut.context.AbstractInitializableBeanDefinition.resolveBean(AbstractInitializableBeanDefinition.java:2065)
+        ... 42 more
