@@ -1,0 +1,6 @@
+micronaut:
+  application:
+    name: mqttkafka
+mqtt.client.client-id: ${random.uuid}
+kafka:
+  enabled: true
