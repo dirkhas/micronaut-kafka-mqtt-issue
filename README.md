@@ -1,3 +1,12 @@
+# Issue with micronaut using both kafka and mqtt
+
+Simply run:
+```
+./gradlew run
+```
+
+and watch it throw up.
+
 ## Micronaut 3.8.2 Documentation
 
 - [User Guide](https://docs.micronaut.io/3.8.2/guide/index.html)
